@@ -1,0 +1,7 @@
+---
+title: "GitLint pre-commit hook"
+---
+- repo: https://github.com/jorisroovers/gitlint
+  rev:  # Fill in a tag / sha here
+  hooks:
+    - id: gitlint
