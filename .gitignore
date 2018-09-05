@@ -7,3 +7,8 @@ npm-debug.log
 
 # Development files
 /openshift.local.clusterup
+/.merlin
+/.vscode
+
+# Compiled files
+/lib
