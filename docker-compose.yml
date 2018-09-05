@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: mongo
+  bsb:
+    build: .
+    command: yarn start
+    volumes:
+      - .:/usr/src/app
+      - /usr/app/node_modules
+    depends_on:
+      - db
+  web:
+    build: .
+    # image: animo/nodebot
+    command: yarn js:start
+    ports:
+      - "8080:8080"
+    depends_on:
+      - bsb

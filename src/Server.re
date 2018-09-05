@@ -97,15 +97,104 @@ App.useOnPath(
     },
 );
 
+App.get(app, ~path="/baseUrl") @@
+Middleware.from((next, req) =>
+                switch (Request.baseUrl(req)) {
+                  | "" => Response.sendJson(makeSuccessJson())
+                  | _ => next(Next.route)
+                  }
+);
+
+App.get(app, ~path="/hostname") @@
+Middleware.from((next, req) =>
+                switch (Request.hostname(req)) {
+                  | "localhost" => Response.sendJson(makeSuccessJson())
+                  | _ => next(Next.route)
+                  }
+);
+
+App.get(app, ~path="/ip") @@
+Middleware.from((next, req) =>
+                switch (Request.ip(req)) {
+                  | "127.0.0.1" => Response.sendJson(makeSuccessJson())
+                  | s =>
+                  Js.log(s);
+                  next(Next.route);
+                  /* TODO why is it printing ::1 */
+                }
+);
+
+App.get(app, ~path="/method") @@
+Middleware.from((next, req) =>
+                switch (Request.httpMethod(req)) {
+                  | Request.Get => Response.sendJson(makeSuccessJson())
+                  | s =>
+                  Js.log(s);
+                  next(Next.route);
+                }
+);
+
+App.get(app, ~path="/originalUrl") @@
+Middleware.from((next, req) =>
+                switch (Request.originalUrl(req)) {
+                  | "/originalUrl" => Response.sendJson(makeSuccessJson())
+                  | s =>
+                  Js.log(s);
+                  next(Next.route);
+                }
+);
+
+App.get(app, ~path="/path") @@
+Middleware.from((next, req) =>
+                switch (Request.path(req)) {
+                  | "/path" => Response.sendJson(makeSuccessJson())
+                  | s =>
+                  Js.log(s);
+                  next(Next.route);
+                }
+);
+
+App.get(app, ~path="/protocol") @@
+Middleware.from((next, req) =>
+                switch (Request.protocol(req)) {
+                  | Request.Http => Response.sendJson(makeSuccessJson())
+                  | s =>
+                  Js.log(s);
+                  next(Next.route);
+                }
+);
+
+App.get(app, ~path="/query") @@
+Middleware.from((next, req) =>
+                switch (getDictString(Request.query(req), "key")) {
+                  | Some("value") => Response.sendJson(makeSuccessJson())
+                  | _ => next(Next.route)
+                  }
+);
+
+App.get(app, ~path="/not-found") @@
+Middleware.from((_, _) => Response.sendStatus(Response.StatusCode.NotFound));
+
+App.get(app, ~path="/error") @@
+Middleware.from((_, _, res) =>
+                res
+                |> Response.status(Response.StatusCode.InternalServerError)
+                |> Response.sendJson(makeSuccessJson())
+                );
+
+/* Get vatiables to run the server */
 let x = [%bs.raw {| 'here is a string from javascript' |}];
 let port = [%bs.raw {| process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080 |}];
+let ip = [%bs.raw {| process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0' |}];
+let mongoURL = [%bs.raw {| process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL |}];
+let mongoURLLabel = "";
 
 let onListen = e =>
 switch (e) {
   | exception (Js.Exn.Error(e)) =>
   Js.log(e);
   Node.Process.exit(1);
-  | _ => Js.log @@ "Listening at http://127.0.0.1:" ++ port
+  | _ => Js.log @@ "Listening at http://" ++ ip ++ ":" ++ port
   };
 
 let server = App.listen(app, ~port=port, ~onListen, ());
