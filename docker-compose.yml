@@ -4,30 +4,32 @@ services:
   db:
     image: mongo
   bsbuild:
-    # build: .
     image: animo/nodebot:latest
     command: yarn start
     volumes:
       - .:/code
-      # - /code/node_modules
       - nodemodules:/code/node_modules
     depends_on:
       - db
     environment:
       - NODE_ENV=dev
       - NODE_PATH=/code/node_modules
+    tty: true
   web:
     # build: .
     image: animo/nodebot:latest
     command: yarn js:start
     volumes:
-      - .:/code
+      - .:/code:ro
+      # - .:/code:ro
       # - /code/node_modules
-      - nodemodules:/code/node_modules
+      - nodemodules:/code/node_modules:ro
+      # - nodemodules:/code/node_modules:ro
     ports:
       - "8080:8080"
     depends_on:
-      - bsbuild
+      - db
+      # - bsbuild
     environment:
       - NODE_ENV=dev
       - NODE_PATH=/code/node_modules

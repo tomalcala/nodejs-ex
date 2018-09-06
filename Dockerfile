@@ -36,6 +36,7 @@ RUN pwd
 RUN ls
 RUN ls node_modules
 # RUN which bsb
+RUN if [ -e .bsb.lock ]; then rm .bsb.lock; fi
 
 EXPOSE 8080
 

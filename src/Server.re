@@ -51,6 +51,7 @@ switch (Js.Dict.get(dict, key)) {
 let makeSuccessJson = () => {
   let json = Js.Dict.empty();
   Js.Dict.set(json, "success", Js.Json.boolean(true));
+  Js.Dict.set(json, "code", Js.Json.number(float_of_int(0)));
   Js.Json.object_(json);
 };
 

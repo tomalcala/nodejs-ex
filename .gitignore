@@ -9,6 +9,7 @@ npm-debug.log
 /openshift.local.clusterup
 /.merlin
 /.vscode
+/.bsb.lock
 
 # Compiled files
 /lib
