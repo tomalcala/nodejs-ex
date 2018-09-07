@@ -20,7 +20,8 @@
   },
   "scripts": {
     "bsb": "bsb",
-    "js:start": "node ./lib/js/src/Server.bs.js",
+    "nodemon": "nodemon",
+    "js:start": "nodemon -w ./lib/js ./lib/js/src/Server.bs.js",
     "js:test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js",
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
@@ -41,6 +42,7 @@
   "homepage": "http://github.com/ThomasMarcel/nodejs-ex",
   "devDependencies": {
     "bs-platform": "^4.0.5",
+    "nodemon": "^1.18.4",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   }

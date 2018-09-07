@@ -4,7 +4,7 @@ services:
   db:
     image: mongo
   bsbuild:
-    image: animo/nodebot:latest
+    image: animo/reason:latest
     command: yarn start
     volumes:
       - .:/code
@@ -17,7 +17,7 @@ services:
     tty: true
   web:
     # build: .
-    image: animo/nodebot:latest
+    image: animo/reason:latest
     command: yarn js:start
     volumes:
       - .:/code:ro

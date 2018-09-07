@@ -48,11 +48,14 @@ switch (Js.Dict.get(dict, key)) {
   };
 
 /* make a common JSON object representing success */
-let makeSuccessJson = () => {
+let makeSuccessJson = (~message=?, ()) => {
   let json = Js.Dict.empty();
   Js.Dict.set(json, "success", Js.Json.boolean(true));
   Js.Dict.set(json, "code", Js.Json.number(float_of_int(0)));
-  Js.Dict.set(json, "message", Js.Json.string("Success!"));
+  switch (message) {
+    | Some(_message) => Js.Dict.set(json, "message", Js.Json.string(_message));
+    | None => Js.Dict.set(json, "message", Js.Json.string("Success!"));
+  }
   Js.Json.object_(json);
 };
 
@@ -110,7 +113,7 @@ Middleware.from((next, req) =>
 App.get(app, ~path="/hostname") @@
 Middleware.from((next, req) =>
                 switch (Request.hostname(req)) {
-                  | "localhost" => Response.sendJson(makeSuccessJson())
+                  | "localhost" => Response.sendJson(makeSuccessJson(~message=Request.hostname(req), ()))
                   | _ => next(Next.route)
                   }
 );
@@ -118,7 +121,7 @@ Middleware.from((next, req) =>
 App.get(app, ~path="/ip") @@
 Middleware.from((next, req) =>
                 switch (Request.ip(req)) {
-                  | "127.0.0.1" => Response.sendJson(makeSuccessJson())
+                  | "127.0.0.1" => Response.sendJson(makeSuccessJson(~message=Request.ip(req), ()))
                   | s =>
                   Js.log(s);
                   next(Next.route);

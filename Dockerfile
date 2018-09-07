@@ -22,7 +22,7 @@ COPY yarn.lock ./
 
 # ENV NODE_ENV=dev
 # ENV NODE_PATH=/dependencies/node_modules
-RUN yarn global add bs-platform
+RUN yarn global add bs-platform nodemon
 # RUN yarn link bs-platform
 
 RUN yarn install
@@ -36,8 +36,8 @@ RUN pwd
 RUN ls
 RUN ls node_modules
 # RUN which bsb
-RUN if [ -e .bsb.lock ]; then rm .bsb.lock; fi
 
 EXPOSE 8080
+RUN if [ -e .bsb.lock ]; then rm .bsb.lock; fi
 
 # CMD [ "yarn", "start" ]
