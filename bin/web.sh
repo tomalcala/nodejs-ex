@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-docker run -t animo/reason -d yarn js:start
+# docker run -d -t -p 8080:9000 animo/reason yarn js:start
+docker-compose run -d -p 8080:8080 web
 

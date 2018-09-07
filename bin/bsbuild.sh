@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -t animo/reason -d yarn start
+docker run -d -t animo/reason yarn start

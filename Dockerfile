@@ -40,4 +40,4 @@ RUN ls node_modules
 EXPOSE 8080
 RUN if [ -e .bsb.lock ]; then rm .bsb.lock; fi
 
-# CMD [ "yarn", "start" ]
+CMD [ "yarn", "start" ]
