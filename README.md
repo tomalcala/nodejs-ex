@@ -26,6 +26,20 @@ __This project is a port in Reason of the Openshift Node Container example that 
 
 You can create a new NodeJS + MongoDB project on Openshift starter V3 using this repository (or a fork of it) as base.
 
+## Recommended Tools  
+
+### Linters  
+
+#### Gitlint  
+
+##### Installation  
+
+1. Install the Python library `$ pip install gitlint`.  
+1. Add the hook `$ gitlint install-hook`.  
+1. _(optional)_ Generate a custom config `$ gitlint generate-config`.  
+1. _(optional)_ Install pre-commit `$ pip install pre-commit`.  
+1. _(optional)_ Add a pre-commit configuration file.  
+
 ## Acknowledgements  
 
 * Thanks to [Reason](https://reasonml.github.io) and the Reason community for making this exercise entertaining.  
