@@ -152,7 +152,7 @@ Middleware.from((next, req) =>
 App.get(app, ~path="/path") @@
 Middleware.from((next, req) =>
                 switch (Request.path(req)) {
-                  | "/path" => Response.sendJson(makeSuccessJson())
+                  | "/path" => Response.sendJson(makeSuccessJson(~message=Request.path(req), ()))
                   | s =>
                   Js.log(s);
                   next(Next.route);
@@ -162,7 +162,7 @@ Middleware.from((next, req) =>
 App.get(app, ~path="/protocol") @@
 Middleware.from((next, req) =>
                 switch (Request.protocol(req)) {
-                  | Request.Http => Response.sendJson(makeSuccessJson())
+                  | Request.Http => Response.sendJson(makeSuccessJson(~message="Http", ()))
                   | s =>
                   Js.log(s);
                   next(Next.route);
