@@ -1,0 +1,40 @@
+bs_package_flags = -bs-package-map nodejs-ex
+src_root_dir = /Users/thomas/dev/nodejs-ex
+bsc = /Users/thomas/dev/nodejs-ex/node_modules/bs-platform/lib/bsc.exe
+bsdep = /Users/thomas/dev/nodejs-ex/node_modules/bs-platform/lib/bsb_helper.exe
+warnings = -w -30-40+6+7+27+32..39+44+45+101 -warn-error +101
+bsc_flags = -bs-suffix -nostdlib -I '/Users/thomas/dev/nodejs-ex/node_modules/bs-platform/lib/ocaml' -color always
+ppx_flags = 
+bs_package_includes = -I /Users/thomas/dev/nodejs-ex/node_modules/bs-express/lib/ocaml
+bs_package_dev_includes = 
+namespace = -ns NodejsEx
+bsb_dir_group = 0
+refmt = /Users/thomas/dev/nodejs-ex/node_modules/bs-platform/lib/refmt.exe
+reason_react_jsx = 
+refmt_flags = --print binary
+bsc_lib_includes = -I . -I src
+rule build_ast_and_module_sets_from_re
+  command = ${bsc} -pp "${refmt} ${refmt_flags}" ${reason_react_jsx}  ${ppx_flags} ${warnings} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -impl ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/Demo.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/Demo.re
+rule build_deps
+  command = ${bsdep} ${namespace} -g ${bsb_dir_group} -MD ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/Demo.mlast.d : build_deps src/Demo.mlast
+rule build_cmj_cmi
+  command = ${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} -o ${out} -c  ${in} $postbuild
+  depfile = ${in}.d
+  description = [34mBuilding[39m [2m${out}[22m
+build src/Demo-NodejsEx.cmj |  $src_root_dir/lib/js/src/Demo.bs.js src/Demo-NodejsEx.cmi : build_cmj_cmi src/Demo.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
+build src/Server.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/Server.re
+build src/Server.mlast.d : build_deps src/Server.mlast
+build src/Server-NodejsEx.cmj |  $src_root_dir/lib/js/src/Server.bs.js src/Server-NodejsEx.cmi : build_cmj_cmi src/Server.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
+rule build_package
+  command = ${bsc} -w -49 -no-alias-deps -c ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build NodejsEx.cmi : build_package NodejsEx.mlmap
+build build.ninja : phony  ||  NodejsEx.cmi src/Server.mlast.d src/Demo.mlast.d

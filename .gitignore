@@ -12,4 +12,4 @@ npm-debug.log
 /.bsb.lock
 
 # Compiled files
-/lib
+# /lib
