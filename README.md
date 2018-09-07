@@ -28,4 +28,4 @@ You can create a new NodeJS + MongoDB project on Openshift starter V3 using this
 
 ## Acknowledgements  
 
-* Thanks to [Reason](https://reasonml.github.io) and the Reason community for making this exercise entertaining.
+* Thanks to [Reason](https://reasonml.github.io) and the Reason community for making this exercise entertaining.  
