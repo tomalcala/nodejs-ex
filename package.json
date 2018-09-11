@@ -23,7 +23,7 @@
     "nodemon": "nodemon",
     "js:start": "nodemon -w ./lib/js ./lib/js/src/Server.bs.js",
     "js:test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js",
-    "build": "echo \"Dummy build for Prod server\" && exit 0",
+    "build": "bsb -make-world",
     "build:prod": "echo \"Dummy build for Prod server\" && exit 0",
     "build:dev": "bsb -make-world",
     "start": "node ./lib/js/src/Server.bs.js",
