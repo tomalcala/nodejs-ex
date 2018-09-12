@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-ex",
-  "version": "0.0.1",
-  "description": "Node.js sample app for OpenShift 3",
+  "name": "reasonbot",
+  "version": "1.0.2",
+  "description": "Reason Bot and App",
   "main": "./lib/js/src/Server.bs.js",
   "dependencies": {
     "bs-express": "^0.8.0",
