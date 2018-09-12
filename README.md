@@ -13,7 +13,7 @@ __This project is a port in Reason of the Openshift Node Container example that 
 ### Local  
 
 1. Install the Node modules with `$ yarn install` (or the NPM counterpart, I recommend Yarn though.  
-1. Run the Bucklescript Builder with `$ yarn start`.  
+1. Run the Bucklescript Builder with `$ yarn start:watch`.  
 1. Run the Node develepment server with `$ yarn js:start`.  
 
 ## Access  
